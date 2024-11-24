@@ -11,5 +11,5 @@ import uk.co.aosd.demo.entities.UserEntity;
  * @author Tony Walmsley
  */
 public interface UserRespository extends JpaRepository<UserEntity, String> {
-    Optional<User> findByUsername(final String username);
+    Optional<UserEntity> findByUsername(final String username);
 }

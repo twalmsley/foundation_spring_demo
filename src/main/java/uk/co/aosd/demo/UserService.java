@@ -2,6 +2,7 @@ package uk.co.aosd.demo;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import uk.co.aosd.demo.entities.UserEntity;
 
 /**
  * Services related to the User entity.
@@ -19,7 +20,8 @@ public class UserService {
     }
 
     public void addUser(final User user) {
-        repo.save(user);
+        final var userEntity = new UserEntity(user.identifier(), user.username(), user.names().members().iterator().next().name(), user.beginning().from());
+        repo.save(userEntity);
     }
 
 }

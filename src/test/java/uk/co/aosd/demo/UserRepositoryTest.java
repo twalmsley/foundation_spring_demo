@@ -1,10 +1,10 @@
 package uk.co.aosd.demo;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static uk.co.aosd.demo.Utils.randId;
 
-import java.sql.Date;
 import java.time.Instant;
 import java.util.Set;
 
@@ -37,7 +37,7 @@ public class UserRepositoryTest {
 
     @Test
     public void test() {
-        final var userDetails = new UserDetails(randId(), "user1", "Alice Cooper", Instant.parse("1946-01-01T12:00:00.00T"));
+        final var userDetails = new UserDetails(randId(), "user1", "Alice Cooper", Instant.parse("1946-01-01T12:00:00.00Z"));
         // First check whether a user exists with the username.
         assertFalse(repo.findByUsername(userDetails.username()).isPresent());
 
@@ -53,8 +53,10 @@ public class UserRepositoryTest {
 
         final var user = new User(randId(), userDetails.username(), names, english, languages, dna, beginning, ending);
 
-        final var userEntity = new UserEntity(user.identifier(), user.username(), Date.from(userDetails.birth()));
-        repo.save(userEntity);
+        final var userEntity = new UserEntity(user.identifier(), user.username(), userDetails.fullName(), userDetails.birth());
+        final var saved = repo.save(userEntity);
+
+        assertEquals(userEntity, saved);
 
         assertTrue(repo.findByUsername(userDetails.username()).isPresent());
     }

@@ -1,6 +1,6 @@
 package uk.co.aosd.demo.entities;
 
-import java.sql.Date;
+import java.time.Instant;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -21,7 +21,9 @@ public class UserEntity {
     @Id
     String id;
 
+    String username;
+
     String fullName;
 
-    Date dateOfBirth;
+    Instant dateOfBirth;
 }
