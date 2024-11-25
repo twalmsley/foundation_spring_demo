@@ -13,7 +13,13 @@ import uk.co.aosd.onto.signifying.Signifier;
  *
  * @author Tony Walmsley
  */
-public record User(String identifier, String username, Class<Signifier<String>> names, Language nativeLanguage, Class<Language> languages, DNA dna,
+public record User(
+    String identifier,
+    String username,
+    Class<Signifier<String>> names,
+    Language nativeLanguage,
+    Class<Language> languages,
+    DNA dna,
     Birth beginning,
     Death ending) implements Human {
 

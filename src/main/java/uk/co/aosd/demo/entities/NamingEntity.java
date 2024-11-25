@@ -1,19 +1,15 @@
 package uk.co.aosd.demo.entities;
 
-import java.time.Instant;
-import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * A JPA representation of a User.
+ * JPA representation for Naming entities.
  *
  * @author Tony Walmsley
  */
@@ -21,24 +17,19 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity {
+public class NamingEntity {
+
     @Id
     String identifier;
 
-    String username;
-
-    @OneToMany(cascade = CascadeType.MERGE)
-    List<NamingEntity> names;
+    String name;
 
     @OneToOne
-    LanguageEntity nativeLanguage;
+    LanguageEntity language;
 
-    @OneToMany
-    List<LanguageEntity> languages;
+    @OneToOne(cascade = CascadeType.ALL)
+    ResignifiedEntity beginning;
 
-    String dna;
-
-    Instant dateOfBirth;
-
-    Instant dateOfDeath;
+    @OneToOne(cascade = CascadeType.ALL)
+    ResignifiedEntity ending;
 }

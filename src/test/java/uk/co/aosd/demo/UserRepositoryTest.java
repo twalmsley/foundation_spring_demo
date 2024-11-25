@@ -11,7 +11,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import uk.co.aosd.demo.entities.UserEntity;
+import uk.co.aosd.demo.entities.EntityServices;
 import uk.co.aosd.onto.biological.DNA;
 import uk.co.aosd.onto.events.Birth;
 import uk.co.aosd.onto.events.Death;
@@ -26,6 +26,8 @@ import uk.co.aosd.onto.signifying.Signifier;
 
 /**
  * Test the User Repository.
+ *
+ * @author Tony Walmsley
  */
 @SpringBootTest
 public class UserRepositoryTest {
@@ -33,13 +35,19 @@ public class UserRepositoryTest {
     public final Language english = new LanguageImpl("BritishEnglish", "British English");
 
     @Autowired
-    UserRespository repo;
+    UserRespository userRespository;
+
+    @Autowired
+    LanguageRepository languageRepository;
+
+    @Autowired
+    EntityServices entityServices;
 
     @Test
     public void test() {
         final var userDetails = new UserDetails(randId(), "user1", "Alice Cooper", Instant.parse("1946-01-01T12:00:00.00Z"));
         // First check whether a user exists with the username.
-        assertFalse(repo.findByUsername(userDetails.username()).isPresent());
+        assertFalse(userRespository.findByUsername(userDetails.username()).isPresent());
 
         final Birth beginning = new Birth(randId(), userDetails.birth(), userDetails.birth());
         final Death ending = new Death(randId(), null, null);
@@ -53,11 +61,16 @@ public class UserRepositoryTest {
 
         final var user = new User(randId(), userDetails.username(), names, english, languages, dna, beginning, ending);
 
-        final var userEntity = new UserEntity(user.identifier(), user.username(), userDetails.fullName(), userDetails.birth());
-        final var saved = repo.save(userEntity);
+        // Save the language.
+        languageRepository.save(entityServices.toLanguageEntity(english));
+
+        // Save the User.
+        final var userEntity = entityServices.toUserEntity(user);
+        final var saved = userRespository.save(userEntity);
 
         assertEquals(userEntity, saved);
 
-        assertTrue(repo.findByUsername(userDetails.username()).isPresent());
+        assertTrue(userRespository.findByUsername(userDetails.username()).isPresent());
     }
+
 }
