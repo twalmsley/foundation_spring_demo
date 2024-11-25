@@ -68,8 +68,11 @@ public class UserRepositoryTest {
         final var userEntity = entityServices.toUserEntity(user);
         final var saved = userRespository.save(userEntity);
 
-        assertEquals(userEntity, saved);
+        // Restore the User and check it is correct.
+        final var restoredUser = entityServices.fromUserEntity(saved);
+        assertEquals(user, restoredUser);
 
+        // Confirm that the username now exists in the database.
         assertTrue(userRespository.findByUsername(userDetails.username()).isPresent());
     }
 

@@ -1,12 +1,8 @@
 package uk.co.aosd.demo.entities;
 
-import java.time.Instant;
-import java.util.List;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,18 +23,21 @@ public class UserEntity {
 
     String username;
 
-    @OneToMany(cascade = CascadeType.MERGE)
-    List<NamingEntity> names;
+    @OneToOne(cascade = CascadeType.MERGE)
+    NamesClassEntity names;
 
     @OneToOne
     LanguageEntity nativeLanguage;
 
-    @OneToMany
-    List<LanguageEntity> languages;
+    @OneToOne(cascade = CascadeType.ALL)
+    LanguagesClassEntity languages;
 
-    String dna;
+    @OneToOne(cascade = CascadeType.ALL)
+    DnaEntity dna;
 
-    Instant dateOfBirth;
+    @OneToOne(cascade = CascadeType.ALL)
+    BirthEntity beginning;
 
-    Instant dateOfDeath;
+    @OneToOne(cascade = CascadeType.ALL)
+    DeathEntity ending;
 }
