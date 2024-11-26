@@ -15,6 +15,9 @@ import uk.co.aosd.onto.reference.ClassImpl;
 import uk.co.aosd.onto.reference.DNAImpl;
 import uk.co.aosd.onto.reference.LanguageImpl;
 import uk.co.aosd.onto.reference.SignifierImpl;
+import uk.co.aosd.onto.reference.events.BirthImpl;
+import uk.co.aosd.onto.reference.events.DeathImpl;
+import uk.co.aosd.onto.reference.events.ResignifiedImpl;
 import uk.co.aosd.onto.signifying.Signifier;
 
 /**
@@ -71,8 +74,8 @@ public class EntityServices {
     public User fromUserEntity(final UserEntity e) {
         final Class<Language> languages = toLanguagesClassEntities(e.getLanguages());
         final DNA dna = new DNAImpl(e.getDna().getIdentifier(), e.getDna().getDna());
-        final Birth beginning = new Birth(e.getBeginning().getIdentifier(), e.getBeginning().getBeginning(), e.getBeginning().getEnding());
-        final Death ending = new Death(e.getEnding().getIdentifier(), e.getEnding().getBeginning(), e.getEnding().getEnding());
+        final Birth beginning = new BirthImpl(e.getBeginning().getIdentifier(), e.getBeginning().getBeginning(), e.getBeginning().getEnding());
+        final Death ending = new DeathImpl(e.getEnding().getIdentifier(), e.getEnding().getBeginning(), e.getEnding().getEnding());
         return new User(e.getIdentifier(), e.getUsername(), toSignifierClass(e.getNames()), toLanguage(e.getNativeLanguage()), languages, dna, beginning,
             ending);
     }
@@ -97,6 +100,6 @@ public class EntityServices {
     }
 
     private Resignified toResignified(final ResignifiedEntity r) {
-        return new Resignified(r.getIdentifier(), r.getBeginning(), r.getEnding());
+        return new ResignifiedImpl(r.getIdentifier(), r.getBeginning(), r.getEnding());
     }
 }

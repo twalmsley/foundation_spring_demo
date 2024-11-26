@@ -20,6 +20,9 @@ import uk.co.aosd.onto.reference.ClassImpl;
 import uk.co.aosd.onto.reference.DNAImpl;
 import uk.co.aosd.onto.reference.LanguageImpl;
 import uk.co.aosd.onto.reference.SignifierImpl;
+import uk.co.aosd.onto.reference.events.BirthImpl;
+import uk.co.aosd.onto.reference.events.DeathImpl;
+import uk.co.aosd.onto.reference.events.ResignifiedImpl;
 import uk.co.aosd.onto.signifying.Signifier;
 
 /**
@@ -48,10 +51,10 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
-        final Birth beginning = new Birth(randId(), userDetails.birth(), userDetails.birth());
-        final Death ending = new Death(randId(), null, null);
-        final Resignified named = new Resignified(randId(), userDetails.birth(), userDetails.birth());
-        final Resignified renamed = new Resignified(randId(), null, null);
+        final Birth beginning = new BirthImpl(randId(), userDetails.birth(), userDetails.birth());
+        final Death ending = new DeathImpl(randId(), null, null);
+        final Resignified named = new ResignifiedImpl(randId(), userDetails.birth(), userDetails.birth());
+        final Resignified renamed = new ResignifiedImpl(randId(), null, null);
 
         final Signifier<String> name = new SignifierImpl<String>(randId(), userDetails.fullName(), english, named, renamed);
         final Class<Signifier<String>> names = new ClassImpl<>(randId(), Set.of(name));
