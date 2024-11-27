@@ -65,7 +65,7 @@ public class UserController {
 
         userService.addUser(user);
 
-        return ResponseEntity.ok(new UserDetails(user.identifier(), userDetails.username(), userDetails.fullName(), userDetails.birth()));
+        return ResponseEntity.ok(new UserDetails(user.getIdentifier(), userDetails.username(), userDetails.fullName(), userDetails.birth()));
     }
 
     private boolean userExists(final String username) {

@@ -1,5 +1,8 @@
 package uk.co.aosd.demo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import uk.co.aosd.onto.biological.DNA;
 import uk.co.aosd.onto.biological.Human;
 import uk.co.aosd.onto.events.Birth;
@@ -13,14 +16,16 @@ import uk.co.aosd.onto.signifying.Signifier;
  *
  * @author Tony Walmsley
  */
-public record User(
-    String identifier,
-    String username,
-    Class<Signifier<String>> names,
-    Language nativeLanguage,
-    Class<Language> languages,
-    DNA dna,
-    Birth beginning,
-    Death ending) implements Human {
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class User implements Human {
+    private String identifier;
+    private String username;
+    private Class<Signifier<String>> names;
+    private Language nativeLanguage;
+    private Class<Language> languages;
+    private DNA dna;
+    private Birth beginning;
+    private Death ending;
 }

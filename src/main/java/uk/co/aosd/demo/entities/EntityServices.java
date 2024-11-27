@@ -36,15 +36,15 @@ public class EntityServices {
      * @return UserEntity
      */
     public UserEntity toUserEntity(final User user) {
-        final List<NamingEntity> namesList = user.names().members().stream().map(this::toNamingEntity).toList();
-        final NamesClassEntity names = new NamesClassEntity(user.names().identifier(), namesList);
-        final LanguageEntity language = toLanguageEntity(user.nativeLanguage());
-        final List<LanguageEntity> languagesList = user.languages().members().stream().map(this::toLanguageEntity).toList();
-        final LanguagesClassEntity languages = new LanguagesClassEntity(user.languages().identifier(), languagesList);
-        final DnaEntity dna = new DnaEntity(user.dna().identifier(), user.dna().dna());
-        final BirthEntity dateOfBirth = new BirthEntity(user.beginning().identifier(), user.beginning().from(), user.beginning().to());
-        final DeathEntity dateOfDeath = new DeathEntity(user.ending().identifier(), user.ending().from(), user.ending().to());
-        return new UserEntity(user.identifier(), user.username(), names, language, languages, dna, dateOfBirth, dateOfDeath);
+        final List<NamingEntity> namesList = user.getNames().getMembers().stream().map(this::toNamingEntity).toList();
+        final NamesClassEntity names = new NamesClassEntity(user.getNames().getIdentifier(), namesList);
+        final LanguageEntity language = toLanguageEntity(user.getNativeLanguage());
+        final List<LanguageEntity> languagesList = user.getLanguages().getMembers().stream().map(this::toLanguageEntity).toList();
+        final LanguagesClassEntity languages = new LanguagesClassEntity(user.getLanguages().getIdentifier(), languagesList);
+        final DnaEntity dna = new DnaEntity(user.getDna().getIdentifier(), user.getDna().getDna());
+        final BirthEntity dateOfBirth = new BirthEntity(user.getBeginning().getIdentifier(), user.getBeginning().getFrom(), user.getBeginning().getTo());
+        final DeathEntity dateOfDeath = new DeathEntity(user.getEnding().getIdentifier(), user.getEnding().getFrom(), user.getEnding().getTo());
+        return new UserEntity(user.getIdentifier(), user.getUsername(), names, language, languages, dna, dateOfBirth, dateOfDeath);
     }
 
     /**
@@ -55,13 +55,13 @@ public class EntityServices {
      * @return NamingEntity
      */
     public NamingEntity toNamingEntity(final Signifier<String> s) {
-        final var from = new ResignifiedEntity(s.beginning().identifier(), s.beginning().from(), s.beginning().to());
-        final var to = new ResignifiedEntity(s.ending().identifier(), s.ending().from(), s.ending().to());
-        return new NamingEntity(s.identifier(), s.name(), new LanguageEntity(s.language().identifier(), s.language().name()), from, to);
+        final var from = new ResignifiedEntity(s.getBeginning().getIdentifier(), s.getBeginning().getFrom(), s.getBeginning().getTo());
+        final var to = new ResignifiedEntity(s.getEnding().getIdentifier(), s.getEnding().getFrom(), s.getEnding().getTo());
+        return new NamingEntity(s.getIdentifier(), s.getName(), new LanguageEntity(s.getLanguage().getIdentifier(), s.getLanguage().getName()), from, to);
     }
 
     public LanguageEntity toLanguageEntity(final Language l) {
-        return new LanguageEntity(l.identifier(), l.name());
+        return new LanguageEntity(l.getIdentifier(), l.getName());
     }
 
     /**
