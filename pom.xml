@@ -42,8 +42,8 @@
 
         <dependency>
             <groupId>uk.co.aosd.onto</groupId>
-            <artifactId>foundation-ontology</artifactId>
-            <version>0.0.7</version>
+            <artifactId>foundation-ontology-jpa</artifactId>
+            <version>0.0.2</version>
         </dependency>
 
         <dependency>
@@ -114,7 +114,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/twalmsley/FoundationOntology</url>
+            <url>https://maven.pkg.github.com/twalmsley/FoundationOntologyJPA</url>
         </repository>
     </repositories>
 </project>

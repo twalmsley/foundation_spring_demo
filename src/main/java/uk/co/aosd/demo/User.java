@@ -1,5 +1,7 @@
 package uk.co.aosd.demo;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,10 +18,12 @@ import uk.co.aosd.onto.signifying.Signifier;
  *
  * @author Tony Walmsley
  */
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements Human {
+    @Id
     private String identifier;
     private String username;
     private Class<Signifier<String>> names;
