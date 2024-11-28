@@ -18,12 +18,12 @@ import uk.co.aosd.onto.events.Resignified;
 import uk.co.aosd.onto.foundation.Class;
 import uk.co.aosd.onto.jpa.ClassJpa;
 import uk.co.aosd.onto.jpa.DNAJpa;
+import uk.co.aosd.onto.jpa.LanguageJpa;
 import uk.co.aosd.onto.jpa.SignifierJpa;
 import uk.co.aosd.onto.jpa.events.BirthJpa;
 import uk.co.aosd.onto.jpa.events.DeathJpa;
 import uk.co.aosd.onto.jpa.events.ResignifiedJpa;
 import uk.co.aosd.onto.language.Language;
-import uk.co.aosd.onto.reference.LanguageImpl;
 import uk.co.aosd.onto.signifying.Signifier;
 
 /**
@@ -34,7 +34,7 @@ import uk.co.aosd.onto.signifying.Signifier;
 @SpringBootTest
 public class UserRepositoryTest {
 
-    public final Language english = new LanguageImpl("BritishEnglish", "British English");
+    public final Language english = new LanguageJpa("BritishEnglish", "British English");
 
     @Autowired
     UserRespository userRespository;
