@@ -8,14 +8,10 @@ import static uk.co.aosd.demo.Utils.randId;
 import java.time.Instant;
 import java.util.Set;
 
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import uk.co.aosd.onto.biological.DNA;
-import uk.co.aosd.onto.events.Birth;
-import uk.co.aosd.onto.events.Death;
-import uk.co.aosd.onto.events.Resignified;
-import uk.co.aosd.onto.foundation.Class;
 import uk.co.aosd.onto.jpa.ClassJpa;
 import uk.co.aosd.onto.jpa.DNAJpa;
 import uk.co.aosd.onto.jpa.LanguageJpa;
@@ -34,7 +30,7 @@ import uk.co.aosd.onto.signifying.Signifier;
 @SpringBootTest
 public class UserRepositoryTest {
 
-    public final Language english = new LanguageJpa("BritishEnglish", "British English");
+    public final LanguageJpa english = new LanguageJpa("BritishEnglish", "British English");
 
     @Autowired
     UserRespository userRespository;
@@ -42,32 +38,70 @@ public class UserRepositoryTest {
     @Autowired
     LanguageRepository languageRepository;
 
+    @Autowired
+    EventRepository eventRepository;
+
+    @Autowired
+    SignifierRepository signifierRepository;
+
+    @Autowired
+    ClassRepository classRepository;
+
+    @Autowired
+    DnaRepository dnaRepository;
+
     @Test
+    @Transactional
     public void test() {
         final var userDetails = new UserDetails(randId(), "user1", "Alice Cooper", Instant.parse("1946-01-01T12:00:00.00Z"));
         // First check whether a user exists with the username.
         assertFalse(userRespository.findByUsername(userDetails.username()).isPresent());
 
-        final Birth beginning = new BirthJpa(randId(), userDetails.birth(), userDetails.birth());
-        final Death ending = new DeathJpa(randId(), null, null);
-        final Resignified named = new ResignifiedJpa(randId(), userDetails.birth(), userDetails.birth());
-        final Resignified renamed = new ResignifiedJpa(randId(), null, null);
+        final var beginning = new BirthJpa(randId(), userDetails.birth(), userDetails.birth());
+        final var ending = new DeathJpa(randId(), null, null);
+        final var named = new ResignifiedJpa(randId(), userDetails.birth(), userDetails.birth());
+        final var renamed = new ResignifiedJpa(randId(), null, null);
 
-        final Signifier<String> name = new SignifierJpa<String>(randId(), userDetails.fullName(), english, named, renamed);
-        final Class<Signifier<String>> names = new ClassJpa<>(randId(), Set.of(name));
-        final Class<Language> languages = new ClassJpa<>(randId(), Set.of(english));
-        final DNA dna = new DNAJpa(randId(), "unknown");
+        final var name = new SignifierJpa(randId(), userDetails.fullName(), english, named, renamed);
+        final var names = new ClassJpa<Signifier<String>>(randId(), Set.of(name));
+        final var languages = new ClassJpa<Language>(randId(), Set.of(english));
+        final var dna = new DNAJpa(randId(), "unknown");
 
-        final var user = new User(randId(), userDetails.username(), names, english, languages, dna, beginning, ending);
+        final var user = new User(randId(), userDetails.username(), beginning, ending, names, english, languages, dna);
 
         // Save the language.
         languageRepository.save(english);
+
+        // Save the events.
+        eventRepository.save(beginning);
+
+        eventRepository.save(ending);
+
+        eventRepository.save(named);
+
+        eventRepository.save(renamed);
+
+        // Save the other entities.
+        signifierRepository.save(name);
+
+        classRepository.save(names);
+
+        classRepository.save(languages);
+
+        dnaRepository.save(dna);
 
         // Save the User.
         final var saved = userRespository.save(user);
 
         // Restore the User and check it is correct.
-        assertEquals(user, saved);
+        assertEquals(user.getUsername(), saved.getUsername());
+        assertEquals(user.getIdentifier(), saved.getIdentifier());
+        assertEquals(user.getBeginning(), saved.getBeginning());
+        assertEquals(user.getEnding(), saved.getEnding());
+        assertEquals(user.getNames(), saved.getNames());
+        assertEquals(user.getNativeLanguage(), saved.getNativeLanguage());
+        assertEquals(user.getLanguages(), saved.getLanguages());
+        assertEquals(user.getDna(), saved.getDna());
 
         // Confirm that the username now exists in the database.
         assertTrue(userRespository.findByUsername(userDetails.username()).isPresent());

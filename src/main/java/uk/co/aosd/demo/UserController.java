@@ -56,12 +56,12 @@ public class UserController {
         final Resignified named = new ResignifiedJpa(randId(), userDetails.birth(), userDetails.birth());
         final Resignified renamed = new ResignifiedJpa(randId(), null, null);
 
-        final Signifier<String> name = new SignifierJpa<String>(randId(), userDetails.fullName(), english, named, renamed);
+        final Signifier<String> name = new SignifierJpa(randId(), userDetails.fullName(), english, named, renamed);
         final Class<Signifier<String>> names = new ClassJpa<>(randId(), Set.of(name));
         final Class<Language> languages = new ClassJpa<>(randId(), Set.of(english));
         final DNA dna = new DNAJpa(randId(), "unknown");
 
-        final var user = new User(randId(), userDetails.username(), names, english, languages, dna, beginning, ending);
+        final var user = new User(randId(), userDetails.username(), beginning, ending, names, english, languages, dna);
 
         userService.addUser(user);
 

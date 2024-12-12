@@ -1,15 +1,14 @@
 package uk.co.aosd.demo;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import uk.co.aosd.onto.biological.DNA;
-import uk.co.aosd.onto.biological.Human;
 import uk.co.aosd.onto.events.Birth;
 import uk.co.aosd.onto.events.Death;
 import uk.co.aosd.onto.foundation.Class;
+import uk.co.aosd.onto.jpa.HumanJpa;
 import uk.co.aosd.onto.language.Language;
 import uk.co.aosd.onto.signifying.Signifier;
 
@@ -18,18 +17,20 @@ import uk.co.aosd.onto.signifying.Signifier;
  *
  * @author Tony Walmsley
  */
-@Entity
+@Entity(name = "SYSTEM_USERS")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class User implements Human {
-    @Id
-    private String identifier;
+@EqualsAndHashCode(callSuper = true)
+public class User extends HumanJpa {
+
     private String username;
-    private Class<Signifier<String>> names;
-    private Language nativeLanguage;
-    private Class<Language> languages;
-    private DNA dna;
-    private Birth beginning;
-    private Death ending;
+
+    /**
+     * Constructor.
+     */
+    public User(final String identifier, final String username, final Birth beginning, final Death ending, final Class<Signifier<String>> names,
+        final Language nativeLanguage, final Class<Language> languages, final DNA dna) {
+        super(identifier, beginning, ending, names, nativeLanguage, languages, dna);
+        this.username = username;
+    }
 }
