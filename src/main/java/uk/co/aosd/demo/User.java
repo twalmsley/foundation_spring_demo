@@ -5,11 +5,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import uk.co.aosd.onto.biological.DNA;
-import uk.co.aosd.onto.events.Birth;
-import uk.co.aosd.onto.events.Death;
 import uk.co.aosd.onto.foundation.Class;
 import uk.co.aosd.onto.jpa.HumanJpa;
-import uk.co.aosd.onto.language.Language;
+import uk.co.aosd.onto.jpa.LanguageJpa;
+import uk.co.aosd.onto.jpa.events.BirthJpa;
+import uk.co.aosd.onto.jpa.events.DeathJpa;
+import uk.co.aosd.onto.jpa.events.ResignifiedJpa;
 import uk.co.aosd.onto.signifying.Signifier;
 
 /**
@@ -28,8 +29,8 @@ public class User extends HumanJpa {
     /**
      * Constructor.
      */
-    public User(final String identifier, final String username, final Birth beginning, final Death ending, final Class<Signifier<String>> names,
-        final Language nativeLanguage, final Class<Language> languages, final DNA dna) {
+    public User(final String identifier, final String username, final BirthJpa beginning, final DeathJpa ending,
+        final Class<Signifier<String, ResignifiedJpa>> names, final LanguageJpa nativeLanguage, final Class<LanguageJpa> languages, final DNA dna) {
         super(identifier, beginning, ending, names, nativeLanguage, languages, dna);
         this.username = username;
     }

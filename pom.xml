@@ -39,11 +39,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
         <dependency>
             <groupId>uk.co.aosd.onto</groupId>
             <artifactId>foundation-ontology-jpa</artifactId>
-            <version>0.0.4</version>
+            <version>0.0.6-SNAPSHOT</version>
         </dependency>
 
         <dependency>
